@@ -6,9 +6,19 @@ type FoodDeliveryFormType = {
   mobile: string;
 };
 
+type FoodDeliveryFormErrorType = {
+  customerName: string;
+  mobile: string;
+};
+
 const FoodDeliveryForm = () => {
   const [values, setValues] = useState<FoodDeliveryFormType>({
-    customerName: "Jenny",
+    customerName: "",
+    mobile: "",
+  });
+
+  const [errors, setErrors] = useState<FoodDeliveryFormErrorType>({
+    customerName: "",
     mobile: "",
   });
 
@@ -17,9 +27,31 @@ const FoodDeliveryForm = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const validateFormData = () => {
+    const newErrors: FoodDeliveryFormErrorType = {
+      customerName: "",
+      mobile: "",
+    };
+
+    if (values.customerName == "") {
+      newErrors.customerName = "Customer name is required.";
+    }
+    if (values.mobile == "") {
+      newErrors.mobile = "Mobile number is required.";
+    }
+    setErrors(newErrors);
+
+    return Object.values(errors).every((x) => x == "");
+  };
+
   const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(values);
+
+    if (validateFormData()) {
+      console.log(values);
+    } else {
+      console.log("form is invalid");
+    }
   };
 
   return (
