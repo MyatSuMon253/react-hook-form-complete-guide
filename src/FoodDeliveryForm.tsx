@@ -55,7 +55,15 @@ const FoodDeliveryForm = () => {
           placeholder="Customer Name"
           {...register("customerName")}
         />
-        <Input type="email" placeholder="Email" {...register("email")} />
+        <Input
+          type="email"
+          placeholder="Email"
+          {...register("email", {
+            pattern: {
+              value:  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+              message: 'Incorrect email format'
+}          })}
+        />
       </div>
       <Button type="submit">Submit</Button>
     </form>
