@@ -12,7 +12,14 @@ type FoodDeliveryFormType = {
 const RenderCount = getRenderCount();
 
 const FoodDeliveryForm = () => {
-  const { register, handleSubmit } = useForm<FoodDeliveryFormType>();
+  const { register, handleSubmit } = useForm<FoodDeliveryFormType>({
+    defaultValues: {
+      orderNo: new Date().valueOf(),
+      customerName: "",
+      mobile: "",
+      email: "",
+    },
+  });
 
   const onSubmit = (formData: FoodDeliveryFormType) => {
     console.log(formData);
@@ -26,7 +33,12 @@ const FoodDeliveryForm = () => {
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>
       <RenderCount />
       <div className="flex space-x-2">
-        <Input type="text" placeholder="#Order No" {...register("orderNo")} />
+        <Input
+          type="text"
+          placeholder="#Order No"
+          {...register("orderNo")}
+          disabled
+        />
         <Input
           type="text"
           placeholder="Mobile"
