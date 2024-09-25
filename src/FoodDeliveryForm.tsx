@@ -1,5 +1,5 @@
 import { Button, Input } from "@nextui-org/react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import getRenderCount from "./hooks/getRenderCount";
 
 type FoodDeliveryFormType = {
@@ -22,11 +22,11 @@ const FoodDeliveryForm = () => {
   });
 
   const onSubmit = (formData: FoodDeliveryFormType) => {
-    console.log(formData);
+    console.log("form data", formData);
   };
 
-  const onError = (errors: any) => {
-    console.log(errors);
+  const onError = (errors: FieldErrors) => {
+    console.log("validation errors", errors);
   };
 
   return (
@@ -42,7 +42,11 @@ const FoodDeliveryForm = () => {
         <Input
           type="text"
           placeholder="Mobile"
-          {...register("mobile", { required: "Mobile number is required" })}
+          {...register("mobile", {
+            required: true,
+            minLength: 6,
+            maxLength: 10,
+          })}
         />
       </div>
       <div className="flex space-x-2">
