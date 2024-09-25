@@ -1,10 +1,13 @@
 import { Button, Input } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
+import getRenderCount from "./hooks/getRenderCount";
 
 type FoodDeliveryFormType = {
   customerName: string;
   mobile: string;
 };
+
+const RenderCount = getRenderCount();
 
 const FoodDeliveryForm = () => {
   const { register, handleSubmit } = useForm<FoodDeliveryFormType>();
@@ -19,6 +22,7 @@ const FoodDeliveryForm = () => {
 
   return (
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>
+      <RenderCount />
       <div>
         <Input
           type="text"

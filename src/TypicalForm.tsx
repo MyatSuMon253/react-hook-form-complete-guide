@@ -1,5 +1,6 @@
 import { Button, Input } from "@nextui-org/react";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
+import getRenderCount from "./hooks/getRenderCount";
 
 type FoodDeliveryFormType = {
   customerName: string;
@@ -11,7 +12,9 @@ type FoodDeliveryFormErrorType = {
   mobile: string;
 };
 
-const FoodDeliveryForm = () => {
+const RenderCount = getRenderCount();
+
+const TypicalForm = () => {
   const [values, setValues] = useState<FoodDeliveryFormType>({
     customerName: "",
     mobile: "",
@@ -56,6 +59,7 @@ const FoodDeliveryForm = () => {
 
   return (
     <form autoComplete="false" onSubmit={onSubmit}>
+      <RenderCount />
       <div>
         <Input
           type="text"
@@ -77,4 +81,4 @@ const FoodDeliveryForm = () => {
   );
 };
 
-export default FoodDeliveryForm;
+export default TypicalForm;
