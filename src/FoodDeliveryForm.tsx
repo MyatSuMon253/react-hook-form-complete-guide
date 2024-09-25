@@ -14,6 +14,7 @@ const RenderCount = getRenderCount();
 const FoodDeliveryForm = () => {
   const { register, handleSubmit, formState } = useForm<FoodDeliveryFormType>({
     mode: "onChange",
+    reValidateMode: "onBlur",
     defaultValues: {
       orderNo: new Date().valueOf(),
       customerName: "",
