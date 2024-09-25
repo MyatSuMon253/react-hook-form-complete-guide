@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import getRenderCount from "./hooks/getRenderCount";
 
 type FoodDeliveryFormType = {
+  orderNo: number;
   customerName: string;
   mobile: string;
+  email: string;
 };
 
 const RenderCount = getRenderCount();
@@ -23,19 +25,23 @@ const FoodDeliveryForm = () => {
   return (
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>
       <RenderCount />
-      <div>
-        <Input
-          type="text"
-          placeholder="Customer Name"
-          {...register("customerName", { value: "Jenny" })}
-        />
+      <div className="flex space-x-2">
+        <Input type="text" placeholder="#Order No" {...register("orderNo")} />
         <Input
           type="text"
           placeholder="Mobile"
           {...register("mobile", { required: "Mobile number is required" })}
         />
-        <Button type="submit">Submit</Button>
       </div>
+      <div className="flex space-x-2">
+        <Input
+          type="text"
+          placeholder="Customer Name"
+          {...register("customerName")}
+        />
+        <Input type="email" placeholder="Email" {...register("email")} />
+      </div>
+      <Button type="submit">Submit</Button>
     </form>
   );
 };
