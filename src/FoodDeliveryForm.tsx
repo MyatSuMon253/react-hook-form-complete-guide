@@ -43,7 +43,7 @@ const FoodDeliveryForm = () => {
           type="text"
           placeholder="Mobile"
           {...register("mobile", {
-            required: true,
+            required: "This field is required",
             minLength: 6,
             maxLength: 10,
           })}
@@ -53,16 +53,22 @@ const FoodDeliveryForm = () => {
         <Input
           type="text"
           placeholder="Customer Name"
-          {...register("customerName")}
+          {...register("customerName", {
+            required: {
+              value: true,
+              message: "Customer name is required",
+            },
+          })}
         />
         <Input
           type="email"
           placeholder="Email"
           {...register("email", {
             pattern: {
-              value:  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-              message: 'Incorrect email format'
-}          })}
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+              message: "Incorrect email format",
+            },
+          })}
         />
       </div>
       <Button type="submit">Submit</Button>
