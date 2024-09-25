@@ -9,6 +9,8 @@ type FoodDeliveryFormType = {
 const FoodDeliveryForm = () => {
   const { register, handleSubmit } = useForm<FoodDeliveryFormType>();
 
+  const customerControl = register("customerName");
+
   const onSubmit = (formData: FoodDeliveryFormType) => {
     console.log(formData);
   };
@@ -23,9 +25,10 @@ const FoodDeliveryForm = () => {
         <Input
           type="text"
           placeholder="Customer Name"
-          {...register("customerName", {
-            required: "Customer name is required",
-          })}
+          name={customerControl.name}
+          ref={customerControl.ref}
+          onChange={customerControl.onChange}
+          onBlur={customerControl.onBlur}
         />
         <Input
           type="text"
