@@ -12,7 +12,8 @@ type FoodDeliveryFormType = {
 const RenderCount = getRenderCount();
 
 const FoodDeliveryForm = () => {
-  const { register, handleSubmit } = useForm<FoodDeliveryFormType>({
+  const { register, handleSubmit, formState } = useForm<FoodDeliveryFormType>({
+    mode: "onChange",
     defaultValues: {
       orderNo: new Date().valueOf(),
       customerName: "",
@@ -44,10 +45,19 @@ const FoodDeliveryForm = () => {
           placeholder="Mobile"
           {...register("mobile", {
             required: "This field is required",
-            minLength: 6,
-            maxLength: 10,
+            minLength: {
+              value: 6,
+              message: "Minimum 6 digits required",
+            },
+            maxLength: {
+              value: 10,
+              message: "Maximum 10 digits allowed",
+            },
           })}
         />
+        {formState.errors.mobile && (
+          <div>{formState.errors.mobile?.message}</div>
+        )}
       </div>
       <div className="flex space-x-2">
         <Input
