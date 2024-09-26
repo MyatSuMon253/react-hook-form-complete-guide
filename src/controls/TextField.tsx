@@ -14,7 +14,7 @@ const TextField = forwardRef(
       <div>
         <input
           type={type}
-          className={`form-control ${className}`}
+          className={`form-control m-1 ${className}`}
           placeholder={label}
           ref={ref}
           {...other}

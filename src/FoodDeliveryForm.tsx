@@ -8,6 +8,8 @@ type FoodDeliveryFormType = {
   customerName: string;
   mobile: string;
   email: string;
+  paymentMethod: string;
+  deliveryIn: number;
 };
 
 const RenderCount = getRenderCount();
@@ -25,6 +27,8 @@ const FoodDeliveryForm = () => {
       customerName: "",
       mobile: "",
       email: "",
+      paymentMethod: "",
+      deliveryIn: 0,
     },
   });
 
