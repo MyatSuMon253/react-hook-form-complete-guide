@@ -1,5 +1,6 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { FieldErrors, useForm } from "react-hook-form";
+import TextField from "./controls/TextField";
 import getRenderCount from "./hooks/getRenderCount";
 
 type FoodDeliveryFormType = {
@@ -12,7 +13,11 @@ type FoodDeliveryFormType = {
 const RenderCount = getRenderCount();
 
 const FoodDeliveryForm = () => {
-  const { register, handleSubmit, formState } = useForm<FoodDeliveryFormType>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FoodDeliveryFormType>({
     mode: "onChange",
     reValidateMode: "onBlur",
     defaultValues: {
@@ -34,68 +39,24 @@ const FoodDeliveryForm = () => {
   return (
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>
       <RenderCount />
-      <div className="flex space-x-2">
-        <Input
-          type="text"
-          placeholder="#Order No"
-          {...register("orderNo")}
-          disabled
-        />
-        <Input
-          type="text"
-          placeholder="Mobile"
-          {...register("mobile", {
-            required: "This field is required",
-            minLength: {
-              value: 6,
-              message: "Minimum 6 digits required",
-            },
-            maxLength: {
-              value: 10,
-              message: "Maximum 10 digits allowed",
-            },
-          })}
-        />
-        {formState.errors.mobile && (
-          <div>{formState.errors.mobile?.message}</div>
-        )}
-      </div>
-      <div className="flex space-x-2">
-        <Input
-          type="text"
-          placeholder="Customer Name"
-          {...register("customerName", {
-            required: {
-              value: true,
-              message: "Customer name is required",
-            },
-          })}
-        />
-        <Input
-          type="email"
-          placeholder="Email"
-          {...register("email", {
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-              message: "Incorrect email format",
-            },
-            validate: {
-              notFake: (value) => {
-                return (
-                  value !== "email@gmail.com" || "Particular email is blocked"
-                );
-              },
-              notFromBlackList: (value) => {
-                return (
-                  (!value.endsWith("@xyz.com") &&
-                    value.endsWith("@example.com")) ||
-                  "This domain is blocked"
-                );
-              },
-            },
-          })}
-        />
-      </div>
+      <TextField label="#Order No" {...register("orderNo")} disabled />
+      <TextField label="Mobile" {...register("mobile")} error={errors.mobile} />
+      <TextField
+        label="Customer Name"
+        {...register("customerName", { required: "This field is required" })}
+        error={errors.customerName}
+      />
+      <TextField
+        type="email"
+        label="Email"
+        {...register("email", {
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "Incorrect email format",
+          },
+        })}
+        error={errors.email}
+      />
       <Button type="submit">Submit</Button>
     </form>
   );
