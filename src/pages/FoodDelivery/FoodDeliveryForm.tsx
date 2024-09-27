@@ -34,7 +34,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, control } = methods;
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -63,7 +63,7 @@ const FoodDeliveryForm = () => {
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
-      <SubmitButton value="Submit" />
+      <SubmitButton value="Submit" control={control} />
     </form>
   );
 };
