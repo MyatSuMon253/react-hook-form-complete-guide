@@ -34,7 +34,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit, control, getFieldState, formState } = methods;
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -64,6 +64,12 @@ const FoodDeliveryForm = () => {
         <DeliveryAddressForm />
       </FormProvider>
       <SubmitButton value="Submit" control={control} />
+      {/* get field state from parent can cause other child component to be rerendered
+      move this code to related child component */}
+      {/* {getFieldState("address").invalid && "address is invalid"}  */}
+
+      {/* this can cause other component to re-render, because it subscribe the whole form */}
+      {getFieldState("address", formState).isTouched && "address is touched"}
     </form>
   );
 };

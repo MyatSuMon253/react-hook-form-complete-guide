@@ -6,7 +6,9 @@ import { DeliveryAddressFormType } from "../../../types";
 const RenderCount = getRenderCount();
 
 const DeliveryAddressForm = () => {
-  const { register } = useFormContext<{ address: DeliveryAddressFormType }>();
+  const { register, getFieldState } = useFormContext<{
+    address: DeliveryAddressFormType;
+  }>();
 
   const { errors } = useFormState<{ address: DeliveryAddressFormType }>({
     name: ["address"],
@@ -31,6 +33,8 @@ const DeliveryAddressForm = () => {
       />
       <TextField label="Landmark" {...register("address.landmark")} />
       <TextField label="State" {...register("address.state")} />
+      {/* this cannot cause other component to re-render, because it subscribe only to address field */}
+      {getFieldState("address").invalid && "address is invalid"}
     </div>
   );
 };
