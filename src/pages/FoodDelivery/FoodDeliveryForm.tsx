@@ -34,7 +34,12 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, getFieldState, formState } = methods;
+  const { handleSubmit, control, watch } = methods;
+
+  // watch("customerName");
+  // watch(["address.city", "customerName"]);
+  // watch();
+  watch((data, { name, type }) => console.log(data, name, type)); // use this callback method whenever changes
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -69,7 +74,7 @@ const FoodDeliveryForm = () => {
       {/* {getFieldState("address").invalid && "address is invalid"}  */}
 
       {/* this can cause other component to re-render, because it subscribe the whole form */}
-      {getFieldState("address", formState).isTouched && "address is touched"}
+      {/* {getFieldState("address", formState).isTouched && "address is touched"} */}
     </form>
   );
 };
