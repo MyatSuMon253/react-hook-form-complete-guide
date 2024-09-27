@@ -1,7 +1,9 @@
 import { Button } from "@nextui-org/react";
 import { FieldErrors, useForm } from "react-hook-form";
+import Select from "./controls/Select";
 import TextField from "./controls/TextField";
 import getRenderCount from "./hooks/getRenderCount";
+import { SelectOptionType } from "./types";
 
 type FoodDeliveryFormType = {
   orderNo: number;
@@ -11,6 +13,20 @@ type FoodDeliveryFormType = {
   paymentMethod: string;
   deliveryIn: number;
 };
+
+const paymentOptions: SelectOptionType[] = [
+  { value: "", text: "Select" },
+  { value: "online", text: "Paid Online" },
+  { value: "cod", text: "Cash on Delivery" },
+];
+
+const deliveryInOptions: SelectOptionType[] = [
+  { value: 0, text: "Select" },
+  { value: 30, text: "Half an Hour" },
+  { value: 60, text: "1 Hour" },
+  { value: 120, text: "2 Hour" },
+  { value: 180, text: "3 Hour" },
+];
 
 const RenderCount = getRenderCount();
 
@@ -60,6 +76,18 @@ const FoodDeliveryForm = () => {
           },
         })}
         error={errors.email}
+      />
+      <Select
+        label="Payment Method"
+        options={paymentOptions}
+        {...register("paymentMethod", { required: "This field is required" })}
+        error={errors.paymentMethod}
+      />
+      <Select
+        label="Delivery Within"
+        options={deliveryInOptions}
+        {...register("deliveryIn", { required: "This field is required" })}
+        error={errors.deliveryIn}
       />
       <Button type="submit">Submit</Button>
     </form>
