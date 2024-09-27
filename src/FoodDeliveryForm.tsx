@@ -12,6 +12,12 @@ type FoodDeliveryFormType = {
   email: string;
   paymentMethod: string;
   deliveryIn: number;
+  address: {
+    streetAddress: string;
+    landmark: string;
+    city: string;
+    state: string;
+  };
 };
 
 const paymentOptions: SelectOptionType[] = [
@@ -45,6 +51,12 @@ const FoodDeliveryForm = () => {
       email: "",
       paymentMethod: "",
       deliveryIn: 0,
+      address: {
+        streetAddress: "",
+        landmark: "",
+        city: "",
+        state: "",
+      },
     },
   });
 
@@ -89,6 +101,20 @@ const FoodDeliveryForm = () => {
         {...register("deliveryIn", { required: "This field is required" })}
         error={errors.deliveryIn}
       />
+      <TextField
+        label="Street Address"
+        {...register("address.streetAddress", {
+          required: "This field is required",
+        })}
+        error={errors.address?.streetAddress}
+      />
+      <TextField
+        label="City"
+        {...register("address.city", { required: "This field is required" })}
+        error={errors.address?.city}
+      />
+      <TextField label="Landmark" {...register("address.landmark")} />
+      <TextField label="State" {...register("address.landmark")} />
       <Button type="submit">Submit</Button>
     </form>
   );
