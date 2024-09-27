@@ -34,20 +34,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const {
-    handleSubmit,
-    formState: {
-      isDirty,
-      dirtyFields,
-      touchedFields,
-      isValid,
-      isValidating,
-      isSubmitting,
-      isSubmitted,
-      isSubmitSuccessful,
-      submitCount,
-    },
-  } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -63,20 +50,20 @@ const FoodDeliveryForm = () => {
   // console.log("touched fields", touchedFields);
   // console.log("is valid", isValid);
   // console.log("validating", isValidating);
-  console.log("is submitting", isSubmitting);
-  console.log("is submitted", isSubmitted);
-  console.log("is submit successful", isSubmitSuccessful);
+  // console.log("is submitting", isSubmitting);
+  // console.log("is submitted", isSubmitted);
+  // console.log("is submit successful", isSubmitSuccessful);
 
   return (
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>
       <RenderCount />
-      <p>Submit Count:{submitCount}</p>
+      {/* <p>Submit Count:{submitCount}</p> */}
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
-      <SubmitButton value="Submit" isSubmitting={isSubmitting} />
+      <SubmitButton value="Submit" />
     </form>
   );
 };
