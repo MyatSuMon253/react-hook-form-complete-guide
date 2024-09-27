@@ -1,64 +1,43 @@
 import { Button } from "@nextui-org/react";
-import { FieldErrors, useForm } from "react-hook-form";
-import Select from "./controls/Select";
+import {
+  FieldErrors,
+  FormProvider,
+  useForm,
+  UseFormReturn,
+} from "react-hook-form";
+import CheckoutForm from "./CheckoutForm";
 import TextField from "./controls/TextField";
 import getRenderCount from "./hooks/getRenderCount";
-import { SelectOptionType } from "./types";
-
-type FoodDeliveryFormType = {
-  orderNo: number;
-  customerName: string;
-  mobile: string;
-  email: string;
-  paymentMethod: string;
-  deliveryIn: number;
-  address: {
-    streetAddress: string;
-    landmark: string;
-    city: string;
-    state: string;
-  };
-};
-
-const paymentOptions: SelectOptionType[] = [
-  { value: "", text: "Select" },
-  { value: "online", text: "Paid Online" },
-  { value: "cod", text: "Cash on Delivery" },
-];
-
-const deliveryInOptions: SelectOptionType[] = [
-  { value: 0, text: "Select" },
-  { value: 30, text: "Half an Hour" },
-  { value: 60, text: "1 Hour" },
-  { value: 120, text: "2 Hour" },
-  { value: 180, text: "3 Hour" },
-];
+import { FoodDeliveryFormType } from "./types";
 
 const RenderCount = getRenderCount();
 
 const FoodDeliveryForm = () => {
+  const methods: UseFormReturn<FoodDeliveryFormType> =
+    useForm<FoodDeliveryFormType>({
+      mode: "onChange",
+      reValidateMode: "onBlur",
+      defaultValues: {
+        orderNo: new Date().valueOf(),
+        customerName: "",
+        mobile: "",
+        email: "",
+        paymentMethod: "",
+        deliveryIn: 0,
+        address: {
+          streetAddress: "",
+          landmark: "",
+          city: "",
+          state: "",
+        },
+      },
+    });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FoodDeliveryFormType>({
-    mode: "onChange",
-    reValidateMode: "onBlur",
-    defaultValues: {
-      orderNo: new Date().valueOf(),
-      customerName: "",
-      mobile: "",
-      email: "",
-      paymentMethod: "",
-      deliveryIn: 0,
-      address: {
-        streetAddress: "",
-        landmark: "",
-        city: "",
-        state: "",
-      },
-    },
-  });
+  } = methods;
 
   const onSubmit = (formData: FoodDeliveryFormType) => {
     console.log("form data", formData);
@@ -89,18 +68,9 @@ const FoodDeliveryForm = () => {
         })}
         error={errors.email}
       />
-      <Select
-        label="Payment Method"
-        options={paymentOptions}
-        {...register("paymentMethod", { required: "This field is required" })}
-        error={errors.paymentMethod}
-      />
-      <Select
-        label="Delivery Within"
-        options={deliveryInOptions}
-        {...register("deliveryIn", { required: "This field is required" })}
-        error={errors.deliveryIn}
-      />
+      <FormProvider {...methods}>
+        <CheckoutForm />
+      </FormProvider>
       <TextField
         label="Street Address"
         {...register("address.streetAddress", {
