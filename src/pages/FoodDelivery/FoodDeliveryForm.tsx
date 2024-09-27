@@ -1,10 +1,10 @@
-import { Button } from "@nextui-org/react";
 import {
   FieldErrors,
   FormProvider,
   useForm,
   UseFormReturn,
 } from "react-hook-form";
+import SubmitButton from "../../controls/SubmitButton";
 import getRenderCount from "../../hooks/getRenderCount";
 import { FoodDeliveryFormType } from "../../types";
 import CheckoutForm from "./components/CheckoutForm";
@@ -36,10 +36,21 @@ const FoodDeliveryForm = () => {
 
   const {
     handleSubmit,
-    formState: { dirtyFields, touchedFields, isValid, isValidating },
+    formState: {
+      isDirty,
+      dirtyFields,
+      touchedFields,
+      isValid,
+      isValidating,
+      isSubmitting,
+      isSubmitted,
+      isSubmitSuccessful,
+      submitCount,
+    },
   } = methods;
 
-  const onSubmit = (formData: FoodDeliveryFormType) => {
+  const onSubmit = async (formData: FoodDeliveryFormType) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log("form data", formData);
   };
 
@@ -47,20 +58,25 @@ const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
-  console.log("dirty", dirtyFields);
-  console.log("touched", touchedFields);
-  console.log("valid", isValid);
-  console.log("validating", isValidating);
+  // console.log('is dirty', isDirty)
+  // console.log("dirty fields", dirtyFields);
+  // console.log("touched fields", touchedFields);
+  // console.log("is valid", isValid);
+  // console.log("validating", isValidating);
+  console.log("is submitting", isSubmitting);
+  console.log("is submitted", isSubmitted);
+  console.log("is submit successful", isSubmitSuccessful);
 
   return (
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>
       <RenderCount />
+      <p>Submit Count:{submitCount}</p>
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
-      <Button type="submit">Submit</Button>
+      <SubmitButton value="Submit" isSubmitting={isSubmitting} />
     </form>
   );
 };
