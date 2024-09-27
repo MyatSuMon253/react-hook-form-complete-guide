@@ -10,6 +10,7 @@ const DeliveryAddressForm = () => {
 
   const { errors } = useFormState<{ address: DeliveryAddressFormType }>({
     name: ["address"],
+    exact: true, // it will need to pass exact same name ['address.streetAddress', 'address.city']
   });
 
   return (
