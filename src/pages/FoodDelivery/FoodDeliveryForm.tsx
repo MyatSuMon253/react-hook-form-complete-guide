@@ -20,7 +20,7 @@ const FoodDeliveryForm = () => {
       reValidateMode: "onBlur",
       defaultValues: {
         orderNo: new Date().valueOf(),
-        customerName: "",
+        customerName: "Joy",
         mobile: "",
         email: "",
         paymentMethod: "",
@@ -34,7 +34,10 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { dirtyFields, touchedFields, isValid, isValidating },
+  } = methods;
 
   const onSubmit = (formData: FoodDeliveryFormType) => {
     console.log("form data", formData);
@@ -43,6 +46,11 @@ const FoodDeliveryForm = () => {
   const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
   };
+
+  console.log("dirty", dirtyFields);
+  console.log("touched", touchedFields);
+  console.log("valid", isValid);
+  console.log("validating", isValidating);
 
   return (
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>

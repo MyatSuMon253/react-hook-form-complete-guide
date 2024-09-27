@@ -28,7 +28,7 @@ const DeliveryAddressForm = () => {
         error={errors.address?.city}
       />
       <TextField label="Landmark" {...register("address.landmark")} />
-      <TextField label="State" {...register("address.landmark")} />
+      <TextField label="State" {...register("address.state")} />
     </div>
   );
 };
