@@ -34,7 +34,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit, control, getValues } = methods;
 
   /* four types of method overload for watch()
   watch("customerName");
@@ -75,6 +75,9 @@ const FoodDeliveryForm = () => {
 
   const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
+    console.log(getValues()); // pass no value will get all form value
+    // console.log(getValues("mobile")); // pass single name
+    // console.log(getValues(["customerName", "email"])); // pass multiple name
   };
 
   // console.log('is dirty', isDirty)
