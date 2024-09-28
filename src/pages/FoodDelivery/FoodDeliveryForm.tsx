@@ -34,7 +34,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, getValues } = methods;
+  const { handleSubmit, control, setValue, getFieldState } = methods;
 
   /* four types of method overload for watch()
   watch("customerName");
@@ -75,9 +75,19 @@ const FoodDeliveryForm = () => {
 
   const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
-    console.log(getValues()); // pass no value will get all form value
+  };
+
+  console.log(getFieldState("email"));
+  const onClickDemo = () => {
+    // console.log(getValues()); // pass no value will get all form value
     // console.log(getValues("mobile")); // pass single name
     // console.log(getValues(["customerName", "email"])); // pass multiple name
+    // setValue("paymentMethod", "cod");
+    setValue("email", "email123", {
+      shouldValidate: true, // set value and check validate
+      shouldDirty: true, // field state of isDirty is set to true
+      shouldTouch: true, // field state of isTouched is set to true
+    });
   };
 
   // console.log('is dirty', isDirty)
@@ -98,6 +108,10 @@ const FoodDeliveryForm = () => {
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
+      <button type="button" onClick={onClickDemo}>
+        Demo
+      </button>
+      <br />
       <SubmitButton value="Submit" control={control} />
       {/* get field state from parent can cause other child component to be rerendered
       move this code to related child component */}
