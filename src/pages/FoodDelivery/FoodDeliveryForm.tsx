@@ -37,24 +37,36 @@ const FoodDeliveryForm = () => {
 
   const { handleSubmit, control, watch } = methods;
 
-  // watch("customerName");
-  // watch(["address.city", "customerName"]);
-  // watch();
-  // use this callback method whenever changes
-  // watch((data, { name, type }) => console.log(data, name, type));
+  /* four types of method overload for watch()
+  watch("customerName");
+  watch(["address.city", "customerName"]);
+  watch();
+ // use this callback method whenever changes
+  watch((data, { name, type }) => console.log(data, name, type));
+  */
 
-  // passing mobile to 959 as default value and watch
-  // const mobile = watch('mobile', '959')
+  /* passing mobile to 959 as default value and watch
+  const mobile = watch('mobile', '959')
+  passing default value as an object and watch
+  const contact = watch(["mobile",'email'], {mobile: '959', email:'testemail'});
+  */
 
-  // passing default value as an object and watch
-  // const contact = watch(["mobile",'email'], {mobile: '959', email:'testemail'});
-  // console.log("mob", contact);
-
+  /* to show alert when payment method is online
   const paymentMethod = watch("paymentMethod");
-
   useEffect(() => {
     if (paymentMethod === "online") alert("please verify the transaction");
   }, [paymentMethod]);
+  */
+
+  /* useEffect with subscription  */
+  useEffect(() => {
+    // (each time any of control changes, this callback will be invoked)
+    const subscription = watch((value, { name, type }) =>
+      console.log(value, name, type)
+    );
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
