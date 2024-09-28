@@ -1,4 +1,5 @@
-import { useFormContext, useFormState } from "react-hook-form";
+import { useEffect } from "react";
+import { useFormContext, useFormState, useWatch } from "react-hook-form";
 import Select from "../../../controls/Select";
 import getRenderCount from "../../../hooks/getRenderCount";
 import { CheckoutFormType, SelectOptionType } from "../../../types";
@@ -25,6 +26,12 @@ const CheckoutForm = () => {
   const { errors } = useFormState<CheckoutFormType>({
     name: ["paymentMethod", "deliveryIn"],
   });
+
+  /* to show alert when payment method is online  */
+  const paymentMethod = useWatch({ name: "paymentMethod" });
+  useEffect(() => {
+    if (paymentMethod === "online") alert("please verify the transaction");
+  }, [paymentMethod]);
 
   return (
     <div>

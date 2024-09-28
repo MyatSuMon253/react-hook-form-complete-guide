@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   FieldErrors,
   FormProvider,
@@ -35,7 +34,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, watch } = methods;
+  const { handleSubmit, control } = methods;
 
   /* four types of method overload for watch()
   watch("customerName");
@@ -56,9 +55,9 @@ const FoodDeliveryForm = () => {
   useEffect(() => {
     if (paymentMethod === "online") alert("please verify the transaction");
   }, [paymentMethod]);
-  */
+ */
 
-  /* useEffect with subscription  */
+  /* useEffect with subscription  
   useEffect(() => {
     // (each time any of control changes, this callback will be invoked)
     const subscription = watch((value, { name, type }) =>
@@ -67,6 +66,7 @@ const FoodDeliveryForm = () => {
 
     return () => subscription.unsubscribe();
   }, [watch]);
+  */
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
