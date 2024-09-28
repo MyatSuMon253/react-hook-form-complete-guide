@@ -8,8 +8,8 @@ import SubmitButton from "../../controls/SubmitButton";
 import getRenderCount from "../../hooks/getRenderCount";
 import { FoodDeliveryFormType } from "../../types";
 import CheckoutForm from "./components/CheckoutForm";
-import FoodDeliveryMaster from "./components/FoodDeliveryMaster";
-import FoodItems from "./components/FoodItems";
+import FoodDeliveryMaster from "./components/MasterFoodDeliveryForm";
+import FoodItems from "./components/OrderedFoodItems";
 
 const RenderCount = getRenderCount();
 
@@ -31,12 +31,7 @@ const FoodDeliveryForm = () => {
           city: "",
           state: "",
         },
-        foodItems: [
-          { name: "Chicken Tender" },
-          {
-            name: "Sweet Potato",
-          },
-        ],
+        foodItems: [{ name: "" }],
       },
     });
 

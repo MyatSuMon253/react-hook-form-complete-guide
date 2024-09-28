@@ -5,7 +5,7 @@ import { MasterFoodDeliveryFormType } from "../../../types";
 
 const RenderCount = getRenderCount();
 
-const FoodDeliveryMaster = () => {
+const MasterFoodDeliveryForm = () => {
   const { register } = useFormContext<MasterFoodDeliveryFormType>();
 
   const { errors } = useFormState<MasterFoodDeliveryFormType>({
@@ -38,4 +38,4 @@ const FoodDeliveryMaster = () => {
   );
 };
 
-export default FoodDeliveryMaster;
+export default MasterFoodDeliveryForm;

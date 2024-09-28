@@ -13,7 +13,7 @@ export type DeliveryAddressFormType = {
 export type FoodDeliveryFormType = {
   address: DeliveryAddressFormType;
   // foodItems: OrderedFoodItemType[];
-  foodItems: {name: string}[]
+  foodItems: { name: string }[];
 } & MasterFoodDeliveryFormType &
   CheckoutFormType;
 
