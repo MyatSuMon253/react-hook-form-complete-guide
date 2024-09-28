@@ -8,8 +8,8 @@ import SubmitButton from "../../controls/SubmitButton";
 import getRenderCount from "../../hooks/getRenderCount";
 import { FoodDeliveryFormType } from "../../types";
 import CheckoutForm from "./components/CheckoutForm";
-import DeliveryAddressForm from "./components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./components/FoodDeliveryMaster";
+import FoodItems from "./components/FoodItems";
 
 const RenderCount = getRenderCount();
 
@@ -31,10 +31,16 @@ const FoodDeliveryForm = () => {
           city: "",
           state: "",
         },
+        foodItems: [
+          { name: "Chicken Tender" },
+          {
+            name: "Sweet Potato",
+          },
+        ],
       },
     });
 
-  const { handleSubmit, control, setValue, getFieldState } = methods;
+  const { handleSubmit, control } = methods;
 
   /* four types of method overload for watch()
   watch("customerName");
@@ -77,6 +83,7 @@ const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
+  /* 
   console.log(getFieldState("email"));
   const onClickDemo = () => {
     // console.log(getValues()); // pass no value will get all form value
@@ -89,6 +96,7 @@ const FoodDeliveryForm = () => {
       shouldTouch: true, // field state of isTouched is set to true
     });
   };
+  */
 
   // console.log('is dirty', isDirty)
   // console.log("dirty fields", dirtyFields);
@@ -105,12 +113,13 @@ const FoodDeliveryForm = () => {
       {/* <p>Submit Count:{submitCount}</p> */}
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
+        <FoodItems />
         <CheckoutForm />
-        <DeliveryAddressForm />
+        {/* <DeliveryAddressForm /> */}
       </FormProvider>
-      <button type="button" onClick={onClickDemo}>
+      {/* <button type="button" onClick={onClickDemo}>
         Demo
-      </button>
+      </button> */}
       <br />
       <SubmitButton value="Submit" control={control} />
       {/* get field state from parent can cause other child component to be rerendered
