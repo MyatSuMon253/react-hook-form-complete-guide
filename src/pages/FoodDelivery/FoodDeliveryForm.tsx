@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   FieldErrors,
   FormProvider,
@@ -43,11 +44,17 @@ const FoodDeliveryForm = () => {
   // watch((data, { name, type }) => console.log(data, name, type));
 
   // passing mobile to 959 as default value and watch
-  const mobile = watch('mobile', '959')
+  // const mobile = watch('mobile', '959')
 
-// passing default value as an object and watch
-  const contact = watch(["mobile",'email'], {mobile: '959', email:'testemail'});
-  console.log("mob", contact);
+  // passing default value as an object and watch
+  // const contact = watch(["mobile",'email'], {mobile: '959', email:'testemail'});
+  // console.log("mob", contact);
+
+  const paymentMethod = watch("paymentMethod");
+
+  useEffect(() => {
+    if (paymentMethod === "online") alert("please verify the transaction");
+  }, [paymentMethod]);
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
