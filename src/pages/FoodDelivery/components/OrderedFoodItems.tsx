@@ -65,6 +65,14 @@ const OrderedFoodItems = () => {
     ]);
   };
 
+  const onRowDelete = (index: number) => {
+    // only delete specific index
+    remove(index);
+
+    // delete all items
+    // remove();
+  };
+
   return (
     <div>
       <h3>Food Items</h3>
@@ -102,6 +110,9 @@ const OrderedFoodItems = () => {
                   error={errors.foodItems && errors.foodItems[index]?.quantity}
                 />
               </td>
+              <button type="button" onClick={() => onRowDelete(index)}>
+                Delete -
+              </button>
             </tr>
           ))}
         </tbody>
