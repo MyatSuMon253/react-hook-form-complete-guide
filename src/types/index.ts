@@ -13,7 +13,7 @@ export type DeliveryAddressFormType = {
 export type FoodDeliveryFormType = {
   address: DeliveryAddressFormType;
   // foodItems: OrderedFoodItemType[];
-  foodItems: { name: string }[];
+  foodItems: OrderedFoodItemType[];
 } & MasterFoodDeliveryFormType &
   CheckoutFormType;
 
@@ -34,10 +34,12 @@ export type MasterFoodDeliveryFormType = {
 };
 
 export type OrderedFoodItemType = {
-  foodId: number;
-  price: number;
-  quantity: number;
-  totalPrice: number;
+  // foodId: number;
+  // price: number;
+  // quantity: number;
+  // totalPrice: number;
+  name: string,
+  quantity: number
 };
 
 export type SelectOptionType =
