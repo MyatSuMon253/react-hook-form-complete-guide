@@ -6,7 +6,7 @@ import { OrderedFoodItemType } from "../../../types";
 const RenderCount = getRenderCount();
 
 const OrderedFoodItems = () => {
-  const { register } = useFormContext<{
+  const { register, setValue } = useFormContext<{
     foodItems: OrderedFoodItemType[];
   }>();
 
@@ -49,6 +49,20 @@ const OrderedFoodItems = () => {
   const onSwapAndMove = () => {
     // swap(0, 2);
     move(0, 2);
+  };
+
+  const onUpdateAndReplace = () => {
+    // update is need to pass the whole set of object
+    // update(1, { name: "Food updated", quantity: 10 });
+
+    // setValue is only need to pass update value
+    // setValue("foodItems.1.quantity", 5);
+
+    // replace the whole array and extra items are removed
+    replace([
+      { name: "Food 1", quantity: 10 },
+      { name: "Food 2", quantity: 11 },
+    ]);
   };
 
   return (
@@ -97,6 +111,9 @@ const OrderedFoodItems = () => {
           Swap and Move
         </button>
       )}
+      <button type="button" onClick={onUpdateAndReplace}>
+        Update and Replace
+      </button>
     </div>
   );
 };
