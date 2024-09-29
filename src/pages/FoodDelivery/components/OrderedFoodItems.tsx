@@ -46,7 +46,10 @@ const OrderedFoodItems = () => {
     insert(3, { name: "Food", quantity: 0 });
   };
 
- 
+  const onSwapAndMove = () => {
+    // swap(0, 2);
+    move(0, 2);
+  };
 
   return (
     <div>
