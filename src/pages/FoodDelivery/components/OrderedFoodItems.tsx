@@ -26,7 +26,24 @@ const OrderedFoodItems = () => {
     replace,
   } = useFieldArray<{
     foodItems: OrderedFoodItemType[];
-  }>({ name: "foodItems" });
+  }>({
+    name: "foodItems",
+    rules: {
+      minLength: {
+        value: 2,
+        message: "Minimum 2 order items required",
+      },
+      validate: {
+        noDuplicate: (values) => {
+          return (
+            new Set(values.map((item) => item.name)).size === values.length ||
+            "No duplicate allowed"
+          );
+        },
+      },
+      required: "No food in the order",
+    },
+  });
 
   const onRowAdd = () => {
     // add new object at the end of the field array
@@ -116,15 +133,22 @@ const OrderedFoodItems = () => {
             </tr>
           ))}
         </tbody>
+        {errors.foodItems?.root && (
+          <tfoot>
+            <tr>
+              <td colSpan={3}>{errors.foodItems?.root?.message}</td>
+            </tr>
+          </tfoot>
+        )}
       </table>
-      {fields.length > 3 && (
+      {/* {fields.length > 3 && (
         <button type="button" onClick={onSwapAndMove}>
           Swap and Move
         </button>
       )}
       <button type="button" onClick={onUpdateAndReplace}>
         Update and Replace
-      </button>
+      </button> */}
     </div>
   );
 };
