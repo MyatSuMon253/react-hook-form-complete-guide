@@ -3,7 +3,7 @@ import { FieldError } from "react-hook-form";
 import { SelectOptionType } from "../types";
 
 type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
-  label: string;
+  label?: string;
   error?: FieldError;
   options: SelectOptionType[];
 };

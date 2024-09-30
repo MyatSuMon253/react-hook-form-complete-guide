@@ -34,12 +34,10 @@ export type MasterFoodDeliveryFormType = {
 };
 
 export type OrderedFoodItemType = {
-  // foodId: number;
-  // price: number;
-  // quantity: number;
-  // totalPrice: number;
-  name: string,
-  quantity: number
+  foodId: number;
+  price: number;
+  quantity: number;
+  totalPrice: number;
 };
 
 export type SelectOptionType =

@@ -1,11 +1,31 @@
+import { useEffect, useState } from "react";
 import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
+import Select from "../../../controls/Select";
 import TextField from "../../../controls/TextField";
+import { getFoodItems } from "../../../db";
 import getRenderCount from "../../../hooks/getRenderCount";
-import { OrderedFoodItemType } from "../../../types";
+import {
+  FoodType,
+  OrderedFoodItemType,
+  SelectOptionType,
+} from "../../../types";
 
 const RenderCount = getRenderCount();
 
 const OrderedFoodItems = () => {
+  const [foodList, setFoodList] = useState<FoodType[]>([]);
+  const [selectedFood, setSelectedFood] = useState<SelectOptionType[]>([]);
+
+  useEffect(() => {
+    const tempList: FoodType[] = getFoodItems();
+    const tempOptions: SelectOptionType[] = tempList.map((x) => ({
+      value: x.foodId,
+      text: x.name,
+    }));
+    setFoodList(tempList);
+    setSelectedFood([{ value: 0, text: "Select" }, ...tempOptions]);
+  }, []);
+
   const { register, setValue } = useFormContext<{
     foodItems: OrderedFoodItemType[];
   }>();
@@ -98,9 +118,9 @@ const OrderedFoodItems = () => {
         <thead>
           <tr>
             <th>Food</th>
+            <th>Price</th>
             <th>Quantity</th>
-            {/* <th>Price</th>
-            <th>Total Price</th> */}
+            <th>Total Price</th>
             <th>
               <button type="button" onClick={onRowAdd}>
                 Add +
@@ -112,19 +132,18 @@ const OrderedFoodItems = () => {
           {fields.map((field, index) => (
             <tr key={field.id}>
               <td>
-                <TextField
-                  {...register(`foodItems.${index}.name` as const, {
-                    required: "This field is required",
-                  })}
-                  error={errors.foodItems && errors.foodItems[index]?.name}
+                <Select
+                  label="Food"
+                  options={selectedFood}
+                  {...register(`foodItems.${index}.foodId` as const)}
                 />
               </td>
               <td>
+                <TextField {...register(`foodItems.${index}.price` as const)} />
+              </td>
+              <td>
                 <TextField
-                  {...register(`foodItems.${index}.quantity` as const, {
-                    required: "This field is required",
-                  })}
-                  error={errors.foodItems && errors.foodItems[index]?.quantity}
+                  {...register(`foodItems.${index}.quantity` as const)}
                 />
               </td>
               <button type="button" onClick={() => onRowDelete(index)}>
@@ -136,7 +155,7 @@ const OrderedFoodItems = () => {
         {errors.foodItems?.root && (
           <tfoot>
             <tr>
-              <td colSpan={3}>{errors.foodItems?.root?.message}</td>
+              <td colSpan={5}>{errors.foodItems?.root?.message}</td>
             </tr>
           </tfoot>
         )}

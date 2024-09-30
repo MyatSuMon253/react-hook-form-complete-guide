@@ -31,7 +31,7 @@ const FoodDeliveryForm = () => {
           city: "",
           state: "",
         },
-        foodItems: [{ name: "", quantity: 0 }],
+        foodItems: [{foodId: 0, price: 0, quantity: 0 }],
       },
     });
 

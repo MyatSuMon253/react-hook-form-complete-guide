@@ -47,7 +47,6 @@ const CheckoutForm = () => {
         label="Delivery Within"
         options={deliveryInOptions}
         {...register("deliveryIn", { required: "This field is required" })}
-        error={errors.deliveryIn}
       />
     </div>
   );
