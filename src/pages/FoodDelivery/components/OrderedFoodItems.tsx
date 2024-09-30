@@ -133,17 +133,30 @@ const OrderedFoodItems = () => {
             <tr key={field.id}>
               <td>
                 <Select
-                  label="Food"
                   options={selectedFood}
-                  {...register(`foodItems.${index}.foodId` as const)}
+                error={errors.foodItems && errors.foodItems[index]?.foodId}
+                  {...register(`foodItems.${index}.foodId` as const,  {
+                    valueAsNumber: true,
+                    min: {
+                      value: 1,
+                      message: "Minimum 1 food item required",
+                    },
+                  })}
                 />
               </td>
               <td>
                 <TextField {...register(`foodItems.${index}.price` as const)} />
               </td>
               <td>
-                <TextField
-                  {...register(`foodItems.${index}.quantity` as const)}
+                <TextField type="number" min={0}
+                error={errors.foodItems && errors.foodItems[index]?.foodId}
+                  {...register(`foodItems.${index}.quantity` as const, {
+                    valueAsNumber: true,
+                    min: {
+                      value: 1,
+                      message: "Minimum 1 quantity required",
+                    },
+                  })}
                 />
               </td>
               <button type="button" onClick={() => onRowDelete(index)}>
