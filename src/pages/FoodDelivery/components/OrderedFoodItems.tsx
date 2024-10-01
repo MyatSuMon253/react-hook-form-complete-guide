@@ -1,5 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
+import {
+  useFieldArray,
+  useFormContext,
+  useFormState,
+  useWatch,
+} from "react-hook-form";
 import Select from "../../../controls/Select";
 import TextField from "../../../controls/TextField";
 import { getFoodItems } from "../../../db";
@@ -9,6 +14,7 @@ import {
   OrderedFoodItemType,
   SelectOptionType,
 } from "../../../types";
+import { roundTo2DecimalPoint } from "../../../utils";
 
 const RenderCount = getRenderCount();
 
@@ -65,6 +71,8 @@ const OrderedFoodItems = () => {
     },
   });
 
+  useWatch<{ foodItems: OrderedFoodItemType[] }>({ name: "foodItems" });
+
   const onRowAdd = () => {
     // add new object at the end of the field array
     // append(
@@ -116,6 +124,14 @@ const OrderedFoodItems = () => {
     if (foodId === 0) price = 0;
     else price = foodList.find((x) => x.foodId === foodId)?.price || 0;
     setValue(`foodItems.${index}.price`, price);
+    updateTotalPrice(index);
+  };
+
+  const updateTotalPrice = (index: number) => {
+    const { price, quantity } = getValues(`foodItems.${index}`);
+    let totalPrice = 0;
+    if (quantity && quantity > 0) totalPrice = price * quantity;
+    setValue(`foodItems.${index}.totalPrice`, roundTo2DecimalPoint(totalPrice));
   };
 
   return (
@@ -167,9 +183,13 @@ const OrderedFoodItems = () => {
                       value: 1,
                       message: "Minimum 1 quantity required",
                     },
+                    onChange: () => {
+                      updateTotalPrice(index);
+                    },
                   })}
                 />
               </td>
+              <td>{getValues(`foodItems.${index}.totalPrice`)}</td>
               <button type="button" onClick={() => onRowDelete(index)}>
                 Delete -
               </button>
