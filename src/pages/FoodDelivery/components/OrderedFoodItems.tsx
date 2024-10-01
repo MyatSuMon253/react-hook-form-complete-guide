@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
 import Select from "../../../controls/Select";
 import TextField from "../../../controls/TextField";
@@ -26,7 +26,7 @@ const OrderedFoodItems = () => {
     setSelectedFood([{ value: 0, text: "Select" }, ...tempOptions]);
   }, []);
 
-  const { register, setValue } = useFormContext<{
+  const { register, setValue, getValues } = useFormContext<{
     foodItems: OrderedFoodItemType[];
   }>();
 
@@ -110,6 +110,14 @@ const OrderedFoodItems = () => {
     // remove();
   };
 
+  const onFoodChange = (e: ChangeEvent<HTMLSelectElement>, index: number) => {
+    const foodId = parseInt(e.target.value);
+    let price: number;
+    if (foodId === 0) price = 0;
+    else price = foodList.find((x) => x.foodId === foodId)?.price || 0;
+    setValue(`foodItems.${index}.price`, price);
+  };
+
   return (
     <div>
       <h3>Food Items</h3>
@@ -134,22 +142,25 @@ const OrderedFoodItems = () => {
               <td>
                 <Select
                   options={selectedFood}
-                error={errors.foodItems && errors.foodItems[index]?.foodId}
-                  {...register(`foodItems.${index}.foodId` as const,  {
+                  error={errors.foodItems && errors.foodItems[index]?.foodId}
+                  {...register(`foodItems.${index}.foodId` as const, {
                     valueAsNumber: true,
                     min: {
                       value: 1,
                       message: "Minimum 1 food item required",
                     },
+                    onChange: (e) => {
+                      onFoodChange(e, index);
+                    },
                   })}
                 />
               </td>
+              <td>{getValues(`foodItems.${index}.price`)}</td>
               <td>
-                <TextField {...register(`foodItems.${index}.price` as const)} />
-              </td>
-              <td>
-                <TextField type="number" min={0}
-                error={errors.foodItems && errors.foodItems[index]?.foodId}
+                <TextField
+                  type="number"
+                  min={0}
+                  error={errors.foodItems && errors.foodItems[index]?.foodId}
                   {...register(`foodItems.${index}.quantity` as const, {
                     valueAsNumber: true,
                     min: {
