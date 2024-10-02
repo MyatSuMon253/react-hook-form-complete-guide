@@ -5,7 +5,7 @@ import {
   UseFormReturn,
 } from "react-hook-form";
 import SubmitButton from "../../controls/SubmitButton";
-import { createOrder } from "../../db";
+import { createOrder, fetchLastOrder } from "../../db";
 import getRenderCount from "../../hooks/getRenderCount";
 import { FoodDeliveryFormType } from "../../types";
 import CheckoutForm from "./components/CheckoutForm";
@@ -14,27 +14,42 @@ import FoodItems from "./components/OrderedFoodItems";
 
 const RenderCount = getRenderCount();
 
+// set to empty value
+// const id: number = 0;
+// set to last order value
+const id: number = 1;
+
+const defaultValues: FoodDeliveryFormType = {
+  orderId: 1,
+  orderNo: new Date().valueOf(),
+  customerName: "Joy",
+  mobile: "",
+  email: "",
+  placedOn: new Date(),
+  paymentMethod: "",
+  deliveryIn: 0,
+  address: {
+    streetAddress: "",
+    landmark: "",
+    city: "",
+    state: "",
+  },
+  foodItems: [{ foodId: 0, price: 0, quantity: 0, totalPrice: 0 }],
+  gTotal: 0,
+};
+
 const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
     useForm<FoodDeliveryFormType>({
       mode: "onChange",
       reValidateMode: "onBlur",
-      defaultValues: {
-        orderNo: new Date().valueOf(),
-        customerName: "Joy",
-        mobile: "",
-        email: "",
-        paymentMethod: "",
-        deliveryIn: 0,
-        address: {
-          streetAddress: "",
-          landmark: "",
-          city: "",
-          state: "",
-        },
-        foodItems: [{ foodId: 0, price: 0, quantity: 0, totalPrice: 0 }],
-        gTotal: 0,
-      },
+      values: (() => {
+        if (id === 0) return defaultValues;
+        else {
+          const tempOrder = fetchLastOrder();
+          return tempOrder ? tempOrder : defaultValues;
+        }
+      })(),
     });
 
   const { handleSubmit, control, setFocus } = methods;

@@ -16,6 +16,13 @@ export const getFoodItems = () => {
 };
 
 const ORDER_KEY = "order";
+
 export const createOrder = (order: FoodDeliveryFormType) => {
   localStorage.setItem(ORDER_KEY, JSON.stringify(order));
+};
+
+export const fetchLastOrder = () => {
+  const order = localStorage.getItem(ORDER_KEY);
+  if (order == null) return null;
+  else return JSON.parse(order);
 };
