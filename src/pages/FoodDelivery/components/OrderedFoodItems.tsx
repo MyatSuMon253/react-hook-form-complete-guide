@@ -204,6 +204,15 @@ const OrderedFoodItems = () => {
                       value: 1,
                       message: "Minimum 1 quantity required",
                     },
+                    validate: {
+                      notMoreThanStock: async (value: number) => {
+                        await new Promise((resolve) =>
+                          setTimeout(resolve, 1000)
+                        );
+                        if (value > 9) return "Out of Stock";
+                        else return true;
+                      },
+                    },
                     onChange: () => {
                       updateTotalPrice(index);
                     },
@@ -211,9 +220,11 @@ const OrderedFoodItems = () => {
                 />
               </td>
               <td>{getValues(`foodItems.${index}.totalPrice`)}</td>
-              <button type="button" onClick={() => onRowDelete(index)}>
-                Delete -
-              </button>
+              <td>
+                <button type="button" onClick={() => onRowDelete(index)}>
+                  Delete -
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
