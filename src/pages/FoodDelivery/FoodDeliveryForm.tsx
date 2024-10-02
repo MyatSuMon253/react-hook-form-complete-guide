@@ -5,6 +5,7 @@ import {
   UseFormReturn,
 } from "react-hook-form";
 import SubmitButton from "../../controls/SubmitButton";
+import { createOrder } from "../../db";
 import getRenderCount from "../../hooks/getRenderCount";
 import { FoodDeliveryFormType } from "../../types";
 import CheckoutForm from "./components/CheckoutForm";
@@ -72,7 +73,10 @@ const FoodDeliveryForm = () => {
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log("form data", formData);
+    formData.orderId = 1;
+    formData.placedOn = new Date();
+    createOrder(formData);
+    console.log("submitted form data", formData);
   };
 
   const onError = (errors: FieldErrors) => {
