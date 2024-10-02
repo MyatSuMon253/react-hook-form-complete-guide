@@ -16,7 +16,10 @@ const MasterFoodDeliveryForm = () => {
     <div>
       <h3>Customer Information</h3>
       <RenderCount />
-      <TextField label="#Order No" {...register("orderNo")} disabled />
+      <TextField
+        label="#Order No"
+        {...register("orderNo", { disabled: true })}
+      />
       <TextField label="Mobile" {...register("mobile")} error={errors.mobile} />
       <TextField
         label="Customer Name"
