@@ -36,7 +36,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit, control, setFocus } = methods;
 
   /* four types of method overload for watch()
   watch("customerName");
@@ -79,6 +79,10 @@ const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
+  const onDemo = () => {
+    setFocus("mobile", { shouldSelect: true });
+  };
+
   /* 
   console.log(getFieldState("email"));
   const onClickDemo = () => {
@@ -113,9 +117,9 @@ const FoodDeliveryForm = () => {
         <CheckoutForm />
         {/* <DeliveryAddressForm /> */}
       </FormProvider>
-      {/* <button type="button" onClick={onClickDemo}>
+      <button type="button" onClick={onDemo}>
         Demo
-      </button> */}
+      </button>
       <br />
       <SubmitButton value="Submit" control={control} />
       {/* get field state from parent can cause other child component to be rerendered
