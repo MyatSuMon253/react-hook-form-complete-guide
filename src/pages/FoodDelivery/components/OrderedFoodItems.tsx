@@ -32,7 +32,7 @@ const OrderedFoodItems = () => {
     setFoodOptions([{ value: 0, text: "Select" }, ...tempOptions]);
   }, []);
 
-  const { register, setValue, getValues } = useFormContext<
+  const { register, setValue, getValues, trigger } = useFormContext<
     { gTotal: number } & {
       foodItems: OrderedFoodItemType[];
     }
@@ -58,8 +58,8 @@ const OrderedFoodItems = () => {
     name: "foodItems",
     rules: {
       minLength: {
-        value: 2,
-        message: "Minimum 2 order items required",
+        value: 1,
+        message: "Minimum 1 order items required",
       },
       validate: {
         noDuplicate: (values) => {
@@ -188,6 +188,7 @@ const OrderedFoodItems = () => {
                     },
                     onChange: (e) => {
                       onFoodChange(e, index);
+                      trigger(`foodItems.${index}.quantity`);
                     },
                   })}
                 />
@@ -200,10 +201,6 @@ const OrderedFoodItems = () => {
                   error={errors.foodItems && errors.foodItems[index]?.foodId}
                   {...register(`foodItems.${index}.quantity` as const, {
                     valueAsNumber: true,
-                    min: {
-                      value: 1,
-                      message: "Minimum 1 quantity required",
-                    },
                     validate: {
                       notMoreThanStock: async (value: number) => {
                         await new Promise((resolve) =>
@@ -212,6 +209,10 @@ const OrderedFoodItems = () => {
                         if (value > 9) return "Out of Stock";
                         else return true;
                       },
+                    },
+                    min: {
+                      value: 1,
+                      message: "Minimum 1 quantity required",
                     },
                     onChange: () => {
                       updateTotalPrice(index);
