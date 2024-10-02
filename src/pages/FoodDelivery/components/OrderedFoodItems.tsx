@@ -20,7 +20,7 @@ const RenderCount = getRenderCount();
 
 const OrderedFoodItems = () => {
   const [foodList, setFoodList] = useState<FoodType[]>([]);
-  const [selectedFood, setSelectedFood] = useState<SelectOptionType[]>([]);
+  const [foodOptions, setFoodOptions] = useState<SelectOptionType[]>([]);
 
   useEffect(() => {
     const tempList: FoodType[] = getFoodItems();
@@ -29,12 +29,14 @@ const OrderedFoodItems = () => {
       text: x.name,
     }));
     setFoodList(tempList);
-    setSelectedFood([{ value: 0, text: "Select" }, ...tempOptions]);
+    setFoodOptions([{ value: 0, text: "Select" }, ...tempOptions]);
   }, []);
 
-  const { register, setValue, getValues } = useFormContext<{
-    foodItems: OrderedFoodItemType[];
-  }>();
+  const { register, setValue, getValues } = useFormContext<
+    { gTotal: number } & {
+      foodItems: OrderedFoodItemType[];
+    }
+  >();
 
   const { errors } = useFormState<{
     foodItems: OrderedFoodItemType[];
@@ -71,7 +73,26 @@ const OrderedFoodItems = () => {
     },
   });
 
-  useWatch<{ foodItems: OrderedFoodItemType[] }>({ name: "foodItems" });
+  const selectedFoodItems: OrderedFoodItemType[] = useWatch<{
+    foodItems: OrderedFoodItemType[];
+  }>({ name: "foodItems" });
+
+  useWatch("gTotal");
+
+  const updateGrandTotal = () => {
+    let gTotal = 0;
+    if (selectedFoodItems && selectedFoodItems.length > 0) {
+      gTotal = selectedFoodItems.reduce(
+        (sum, curr) => sum + curr.totalPrice,
+        0
+      );
+    }
+    setValue("gTotal", roundTo2DecimalPoint(gTotal));
+  };
+
+  useEffect(() => {
+    updateGrandTotal();
+  }, [selectedFoodItems]);
 
   const onRowAdd = () => {
     // add new object at the end of the field array
@@ -157,7 +178,7 @@ const OrderedFoodItems = () => {
             <tr key={field.id}>
               <td>
                 <Select
-                  options={selectedFood}
+                  options={foodOptions}
                   error={errors.foodItems && errors.foodItems[index]?.foodId}
                   {...register(`foodItems.${index}.foodId` as const, {
                     valueAsNumber: true,
@@ -196,13 +217,20 @@ const OrderedFoodItems = () => {
             </tr>
           ))}
         </tbody>
-        {errors.foodItems?.root && (
-          <tfoot>
+        <tfoot>
+          {fields && fields.length > 0 && (
+            <tr className="border-t">
+              <td colSpan={2}></td>
+              <td>Grand Total</td>
+              <td> {"$" + getValues("gTotal")}</td>
+            </tr>
+          )}
+          {errors.foodItems?.root && (
             <tr>
               <td colSpan={5}>{errors.foodItems?.root?.message}</td>
             </tr>
-          </tfoot>
-        )}
+          )}
+        </tfoot>
       </table>
       {/* {fields.length > 3 && (
         <button type="button" onClick={onSwapAndMove}>
