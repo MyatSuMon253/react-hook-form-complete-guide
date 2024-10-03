@@ -43,13 +43,15 @@ const FoodDeliveryForm = () => {
     useForm<FoodDeliveryFormType>({
       mode: "onChange",
       reValidateMode: "onBlur",
-      values: (() => {
-        if (id === 0) return defaultValues;
+      defaultValues: async (): Promise<FoodDeliveryFormType> => {
+        if (id === 0) return new Promise((resolve) => resolve(defaultValues));
         else {
-          const tempOrder = fetchLastOrder();
-          return tempOrder ? tempOrder : defaultValues;
+          const tempOrder = await fetchLastOrder();
+          return new Promise((resolve) =>
+            resolve(tempOrder ? tempOrder : defaultValues)
+          );
         }
-      })(),
+      },
     });
 
   const { handleSubmit, control, setFocus } = methods;
