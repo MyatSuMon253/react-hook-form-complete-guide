@@ -11,6 +11,7 @@ import { FoodDeliveryFormType } from "../../types";
 import CheckoutForm from "./components/CheckoutForm";
 import FoodDeliveryMaster from "./components/MasterFoodDeliveryForm";
 import FoodItems from "./components/OrderedFoodItems";
+import FormLoader from "../common/FormLoader";
 
 const RenderCount = getRenderCount();
 
@@ -131,6 +132,7 @@ const FoodDeliveryForm = () => {
   return (
     <form autoComplete="false" onSubmit={handleSubmit(onSubmit, onError)}>
       <RenderCount />
+      <FormLoader control={control} />
       {/* <p>Submit Count:{submitCount}</p> */}
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
