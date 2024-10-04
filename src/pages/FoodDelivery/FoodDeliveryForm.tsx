@@ -65,6 +65,7 @@ const FoodDeliveryForm = () => {
     resetField,
     reset,
     setError,
+    clearErrors,
     formState: { defaultValues },
   } = methods;
 
@@ -132,7 +133,10 @@ const FoodDeliveryForm = () => {
     // reset the entire form data and form state
     // reset(initialValues, { keepValues: true, keepErrors: true });
 
-    reset(initialValues, { keepDirtyValues: true });
+    // reset(initialValues, { keepDirtyValues: true });
+
+    // clearErrors();
+    clearErrors('email')
   };
 
   /* 
