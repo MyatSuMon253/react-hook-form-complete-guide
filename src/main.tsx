@@ -1,12 +1,14 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./FoodDeliveryApp";
+import UserRegistrationForm from "./UserRegistrationForm";
+// import App from "./FoodDeliveryApp";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <NextUIProvider>
-      <App />
+      {/* <App /> */}
+      <UserRegistrationForm />
     </NextUIProvider>
   </StrictMode>
 );
