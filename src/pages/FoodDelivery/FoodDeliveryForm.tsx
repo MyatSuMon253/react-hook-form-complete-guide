@@ -124,7 +124,9 @@ const FoodDeliveryForm = () => {
     // resetField("email", {keepError: true, defaultValue: 'abc@outlook.com'});
 
     // reset the entire form data and form state
-    reset(initialValues, { keepValues: true, keepErrors: true });
+    // reset(initialValues, { keepValues: true, keepErrors: true });
+
+    reset(initialValues, { keepDirtyValues: true });
   };
 
   /* 
