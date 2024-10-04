@@ -3,6 +3,7 @@ import {
   FormProvider,
   useForm,
   UseFormReturn,
+  useWatch,
 } from "react-hook-form";
 import SubmitButton from "../../controls/SubmitButton";
 import { createOrder, fetchLastOrder } from "../../db";
@@ -56,7 +57,7 @@ const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, setFocus } = methods;
+  const { handleSubmit, control, setFocus, unregister } = methods;
 
   /* four types of method overload for watch()
   watch("customerName");
@@ -103,9 +104,12 @@ const FoodDeliveryForm = () => {
   };
 
   const onDemo = () => {
-    setFocus("mobile", { shouldSelect: true });
+    // setFocus("mobile", { shouldSelect: true });
+    // unregister from the form but re-rendering and register again
+    unregister("customerName");
   };
 
+  console.log(useWatch({ control }));
   /* 
   console.log(getFieldState("email"));
   const onClickDemo = () => {
