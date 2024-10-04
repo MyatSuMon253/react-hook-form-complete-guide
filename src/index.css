@@ -24,3 +24,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+input:invalid {
+  border: 1px solid red;
+}
+
+input:valid {
+  border: 1px solid green;
+}

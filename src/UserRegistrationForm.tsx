@@ -9,6 +9,7 @@ type FormData = {
 const UserRegistrationForm = () => {
   const methods = useForm<FormData>({
     mode: "onChange",
+    shouldUseNativeValidation: true,
     values: {
       username: "msm",
       password: "",
