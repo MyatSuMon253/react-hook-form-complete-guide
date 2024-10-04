@@ -8,6 +8,7 @@ type FormData = {
 const App = () => {
   const methods = useForm<FormData>({
     mode: "onChange",
+    shouldUnregister: true,
     defaultValues: {
       reason: "",
       otherReason: "",
