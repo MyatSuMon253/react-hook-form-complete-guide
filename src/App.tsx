@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -15,11 +16,19 @@ const App = () => {
     },
   });
 
-  const { register, watch, handleSubmit } = methods;
+  const { register, watch, handleSubmit, unregister } = methods;
 
   const onSubmit = (formData: FormData) => {
     console.log(formData);
   };
+
+  const reasonValue = watch("reason");
+
+  useEffect(() => {
+    if (reasonValue !== "other") {
+      unregister("otherReason");
+    }
+  }, [reasonValue, unregister]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
