@@ -9,6 +9,11 @@ type FormData = {
 const UserRegistrationForm = () => {
   const methods = useForm<FormData>({
     mode: "onChange",
+    values: {
+      username: "msm",
+      password: "",
+      confirmPassword: "",
+    },
     defaultValues: {
       username: "",
       password: "",
