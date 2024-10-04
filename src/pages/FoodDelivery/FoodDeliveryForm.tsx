@@ -6,7 +6,7 @@ import {
   useWatch,
 } from "react-hook-form";
 import SubmitButton from "../../controls/SubmitButton";
-import { createOrder, fetchLastOrder } from "../../db";
+import { fetchLastOrder } from "../../db";
 import getRenderCount from "../../hooks/getRenderCount";
 import { FoodDeliveryFormType } from "../../types";
 import FormLoader from "../common/FormLoader";
@@ -17,9 +17,9 @@ import FoodItems from "./components/OrderedFoodItems";
 const RenderCount = getRenderCount();
 
 // set to empty value
-// const id: number = 0;
+const id: number = 0;
 // set to last order value
-const id: number = 1;
+// const id: number = 1;
 
 const initialValues: FoodDeliveryFormType = {
   orderId: 1,
@@ -64,6 +64,7 @@ const FoodDeliveryForm = () => {
     unregister,
     resetField,
     reset,
+    setError,
     formState: { defaultValues },
   } = methods;
 
@@ -103,9 +104,14 @@ const FoodDeliveryForm = () => {
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    // formData.orderId = 1;
-    // formData.placedOn = new Date();
-    createOrder(formData);
+    formData.orderId = 1;
+    formData.placedOn = new Date();
+    setError(
+      "email",
+      { type: "duplicateEmail", message: "The email already taken" },
+      { shouldFocus: true }
+    );
+    // createOrder(formData);
     console.log("submitted form data", formData);
   };
 
