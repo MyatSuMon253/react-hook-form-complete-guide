@@ -21,7 +21,7 @@ const RenderCount = getRenderCount();
 // set to last order value
 const id: number = 1;
 
-const defaultValues: FoodDeliveryFormType = {
+const initialValues: FoodDeliveryFormType = {
   orderId: 1,
   orderNo: new Date().valueOf(),
   customerName: "Joy",
@@ -47,18 +47,28 @@ const FoodDeliveryForm = () => {
       shouldUnregister: true,
       reValidateMode: "onBlur",
       defaultValues: async (): Promise<FoodDeliveryFormType> => {
-        if (id === 0) return new Promise((resolve) => resolve(defaultValues));
+        if (id === 0) return new Promise((resolve) => resolve(initialValues));
         else {
           const tempOrder = await fetchLastOrder();
           return new Promise((resolve) =>
-            resolve(tempOrder ? tempOrder : defaultValues)
+            resolve(tempOrder ? tempOrder : initialValues)
           );
         }
       },
     });
 
-  const { handleSubmit, control, setFocus, unregister } = methods;
+  const {
+    handleSubmit,
+    control,
+    setFocus,
+    unregister,
+    resetField,
+    reset,
+    formState: { defaultValues },
+  } = methods;
 
+  console.log(useWatch({ control }));
+  console.log(defaultValues);
   /* four types of method overload for watch()
   watch("customerName");
   watch(["address.city", "customerName"]);
@@ -106,10 +116,17 @@ const FoodDeliveryForm = () => {
   const onDemo = () => {
     // setFocus("mobile", { shouldSelect: true });
     // unregister from the form but re-rendering and register again
-    unregister("customerName");
+    // unregister("customerName");
   };
 
-  console.log(useWatch({ control }));
+  const onReset = () => {
+    // reset particular field and set to default value
+    // resetField("email", {keepError: true, defaultValue: 'abc@outlook.com'});
+
+    // reset the entire form data and form state
+    reset(initialValues, { keepValues: true, keepErrors: true });
+  };
+
   /* 
   console.log(getFieldState("email"));
   const onClickDemo = () => {
@@ -145,8 +162,8 @@ const FoodDeliveryForm = () => {
         <CheckoutForm />
         {/* <DeliveryAddressForm /> */}
       </FormProvider>
-      <button type="button" onClick={onDemo}>
-        Demo
+      <button type="button" onClick={onReset}>
+        Reset
       </button>
       <br />
       <SubmitButton value="Submit" control={control} />
