@@ -16,6 +16,8 @@ const MasterFoodDeliveryForm = () => {
     <div>
       <h3>Customer Information</h3>
       <RenderCount />
+      <input type="hidden" {...register("orderId")} />
+      <input type="hidden" {...register("placedOn")} />
       <TextField
         label="#Order No"
         {...register("orderNo", { disabled: true })}

@@ -8,10 +8,10 @@ import SubmitButton from "../../controls/SubmitButton";
 import { createOrder, fetchLastOrder } from "../../db";
 import getRenderCount from "../../hooks/getRenderCount";
 import { FoodDeliveryFormType } from "../../types";
+import FormLoader from "../common/FormLoader";
 import CheckoutForm from "./components/CheckoutForm";
 import FoodDeliveryMaster from "./components/MasterFoodDeliveryForm";
 import FoodItems from "./components/OrderedFoodItems";
-import FormLoader from "../common/FormLoader";
 
 const RenderCount = getRenderCount();
 
@@ -43,6 +43,7 @@ const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
     useForm<FoodDeliveryFormType>({
       mode: "onChange",
+      shouldUnregister: true,
       reValidateMode: "onBlur",
       defaultValues: async (): Promise<FoodDeliveryFormType> => {
         if (id === 0) return new Promise((resolve) => resolve(defaultValues));
@@ -91,8 +92,8 @@ const FoodDeliveryForm = () => {
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    formData.orderId = 1;
-    formData.placedOn = new Date();
+    // formData.orderId = 1;
+    // formData.placedOn = new Date();
     createOrder(formData);
     console.log("submitted form data", formData);
   };
