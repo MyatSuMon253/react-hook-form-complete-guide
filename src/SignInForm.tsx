@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { FieldErrors, useForm } from "react-hook-form";
+import { Controller, FieldErrors, useForm } from "react-hook-form";
 
 type FormData = {
   fullName: string;
@@ -11,7 +11,7 @@ const SignInForm = () => {
   const methods = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
-      fullName: "def",
+      fullName: "",
       email: "",
       password: "",
     },
@@ -20,6 +20,7 @@ const SignInForm = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = methods;
 
@@ -31,7 +32,7 @@ const SignInForm = () => {
     console.log("error", err);
   };
 
-  const { ref, ...fullNameRegister } = register("fullName");
+  // const { ref, ...fullNameRegister } = register("fullName");
 
   return (
     <form
@@ -39,12 +40,25 @@ const SignInForm = () => {
       autoComplete="off"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <TextField
+      {/* <TextField
         variant="outlined"
         label="Full Name"
         inputRef={ref}
         {...fullNameRegister}
         defaultValue="abc"
+      /> */}
+      <Controller
+        name="fullName"
+        control={control}
+        rules={{ required: "This field is required" }}
+        render={({ field }) => (
+          <TextField
+            variant="outlined"
+            label="Full Name"
+            {...field}
+            inputRef={field.ref}
+          />
+        )}
       />
       <TextField variant="outlined" label="Email" {...register("email")} />
       <TextField variant="outlined" label="Password" />
