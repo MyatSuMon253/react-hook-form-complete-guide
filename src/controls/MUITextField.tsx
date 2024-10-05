@@ -1,5 +1,10 @@
 import { TextField, TextFieldProps } from "@mui/material";
-import { Control, Controller, RegisterOptions } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  RegisterOptions,
+  useController,
+} from "react-hook-form";
 
 type MUITextFieldType = {
   variant?: "filled" | "outlined" | "standard";
@@ -19,7 +24,7 @@ type MUITextFieldType = {
     >;
   };
 
-const MUITextField = (props: MUITextFieldType) => {
+const MUITextFieldWithComponent = (props: MUITextFieldType) => {
   const {
     name,
     control,
@@ -49,6 +54,39 @@ const MUITextField = (props: MUITextFieldType) => {
           {...otherProps}
         />
       )}
+    />
+  );
+};
+
+export const MUITextField = (props: MUITextFieldType) => {
+  const {
+    name,
+    control,
+    defaultValue,
+    rules,
+    shouldUnregister,
+    disabled,
+    variant = "outlined",
+    ...otherProps
+  } = props;
+
+  const { field, fieldState } = useController({
+    name,
+    control,
+    rules,
+    defaultValue,
+    shouldUnregister,
+    disabled,
+  });
+
+  return (
+    <TextField
+      variant={variant}
+      {...field}
+      inputRef={field.ref}
+      error={fieldState.invalid}
+      helperText={fieldState.error?.message}
+      {...otherProps}
     />
   );
 };
