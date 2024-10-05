@@ -6,7 +6,7 @@ type FormData = {
   confirmPassword: string;
 };
 
-const UserRegistrationForm = () => {
+const ChangePasswordForm = () => {
   const methods = useForm<FormData>({
     mode: "onChange",
     shouldUseNativeValidation: true,
@@ -81,4 +81,4 @@ const UserRegistrationForm = () => {
   );
 };
 
-export default UserRegistrationForm;
+export default ChangePasswordForm;

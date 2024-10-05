@@ -1,14 +1,20 @@
-import { NextUIProvider } from "@nextui-org/react";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import UserRegistrationForm from "./UserRegistrationForm";
-// import App from "./FoodDeliveryApp";
+import SignInForm from "./SignInForm";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <NextUIProvider>
-      {/* <App /> */}
-      <UserRegistrationForm />
-    </NextUIProvider>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <SignInForm />
+    </ThemeProvider>
   </StrictMode>
 );
