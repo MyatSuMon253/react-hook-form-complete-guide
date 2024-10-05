@@ -24,7 +24,7 @@ type MUITextFieldType = {
     >;
   };
 
-const MUITextFieldWithComponent = (props: MUITextFieldType) => {
+export const MUITextFieldWithComponent = (props: MUITextFieldType) => {
   const {
     name,
     control,
@@ -67,6 +67,7 @@ export const MUITextField = (props: MUITextFieldType) => {
     shouldUnregister,
     disabled,
     variant = "outlined",
+    margin = "normal",
     ...otherProps
   } = props;
 
@@ -82,6 +83,7 @@ export const MUITextField = (props: MUITextFieldType) => {
   return (
     <TextField
       variant={variant}
+      margin={margin}
       {...field}
       inputRef={field.ref}
       error={fieldState.invalid}

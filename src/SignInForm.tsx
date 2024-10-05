@@ -1,5 +1,6 @@
-import { Button, TextField } from "@mui/material";
-import { Controller, FieldErrors, useForm } from "react-hook-form";
+import { Button } from "@mui/material";
+import { FieldErrors, useForm } from "react-hook-form";
+import MUITextField from "./controls/MUITextField";
 
 type FormData = {
   fullName: string;
@@ -40,28 +41,31 @@ const SignInForm = () => {
       autoComplete="off"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      {/* <TextField
-        variant="outlined"
-        label="Full Name"
-        inputRef={ref}
-        {...fullNameRegister}
-        defaultValue="abc"
-      /> */}
-      <Controller
+      <MUITextField
         name="fullName"
+        label="Full Name"
         control={control}
         rules={{ required: "This field is required" }}
-        render={({ field }) => (
-          <TextField
-            variant="outlined"
-            label="Full Name"
-            {...field}
-            inputRef={field.ref}
-          />
-        )}
       />
-      <TextField variant="outlined" label="Email" {...register("email")} />
-      <TextField variant="outlined" label="Password" />
+      <MUITextField
+        name="email"
+        label="Email"
+        control={control}
+        rules={{
+          required: "This field is required",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "Incorrect email format",
+          },
+        }}
+      />
+      <MUITextField
+        name="password"
+        label="Password"
+        type="password"
+        control={control}
+        rules={{ required: "This field is required" }}
+      />
       <Button type="submit" variant="contained" color="primary">
         Sign In
       </Button>
