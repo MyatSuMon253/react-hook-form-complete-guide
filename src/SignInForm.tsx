@@ -22,14 +22,24 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const SignInForm = () => {
-  const methods = useForm<FormData>({
+  const methods = useForm<FormData, {blockedEmailDomains: string[]}>({
     mode: "onChange",
     defaultValues: {
       fullName: "",
       email: "",
       password: "",
     },
-    resolver: zodResolver(schema),
+    // resolver: zodResolver(schema),
+    resolver: async (data, context, options) => {
+      console.log(
+        "validation result",
+        await zodResolver(schema)(data, context, options)
+      );
+      return zodResolver(schema)(data, context, options);
+    },
+    context: {
+      blockedEmailDomains: ["example.com", "xyz.com"],
+    },
   });
 
   const { handleSubmit, control } = methods;
